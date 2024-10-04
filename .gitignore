@@ -1,0 +1,41 @@
+Edit
+
+No lines are selected.
+
+.DS_Store
+
+.terraform/
+
+.terraform.lock.hcl
+
+plan.txt
+
+.zip# Local .terraform directories
+
+**/.terraform/*
+
+ 
+
+# State file lock files
+
+.terraform.lock*
+
+errored.tfstate
+
+ 
+
+# Crash log files
+
+crash.log
+
+crash.*.log
+
+ 
+
+# Extras
+
+.DS_Store
+
+plan.txt
+
+.zip
