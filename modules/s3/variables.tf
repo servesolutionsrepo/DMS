@@ -3,8 +3,4 @@ variable "bucket_name" {
   type        = string
 }
 
-variable "prevent_destroy" {
-  description = "Prevent the bucket from being destroyed"
-  type        = bool
-  default     = true
-}
+
