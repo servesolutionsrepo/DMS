@@ -6,15 +6,15 @@ module "s3" {
 
 module "dynamodb" {
   source     = "./modules/dynamodb"
-  table_name = "aws_dynamodb_table.this.name"
+  table_name = var.dynamodb_table_name
 }
 
-terraform {
-  backend "s3" {
-    region         = "eu-west-2"
-    bucket         = "aws_s3_bucket.this.bucket"
-    key            = "global/s3/terraform.tfstate"
-    dynamodb_table = "aws_dynamodb_table.this.name"
-    encrypt        = true
-  }
-}
+# terraform {
+#   backend "s3" {
+#     region         = "eu-west-2"
+#     bucket         = "my-terraform-state-bucket"
+#     key            = "global/s3/terraform.tfstate"
+#     dynamodb_table = "terraform-state-locks"
+#     encrypt        = true
+#   }
+# }
