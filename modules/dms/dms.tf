@@ -4,8 +4,6 @@ resource "aws_dms_endpoint" "dms_source" {
   endpoint_id                 = "test-dms-endpoint-tf"
   endpoint_type               = "source"
   engine_name                 = "aurora"
-  extra_connection_attributes = ""
-  kms_key_arn                 = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
   password                    = "test"
   port                        = 3306
   server_name                 = "test"
@@ -18,25 +16,16 @@ resource "aws_dms_endpoint" "dms_source" {
   username = "test"
 }
 
-resource "aws_dms_endpoint" "dms_target" {
-  certificate_arn             = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
-  database_name               = "test"
-  endpoint_id                 = "test-dms-endpoint-tf"
-  endpoint_type               = "target"
-  engine_name                 = "s3"
-  extra_connection_attributes = ""
-  kms_key_arn                 = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
-  password                    = "test"
-  port                        = 3306
-  server_name                 = "test"
-  ssl_mode                    = "none"
+resource "aws_dms_s3_endpoint" "example" {
+  endpoint_id   = "donnedtipi"
+  endpoint_type = "target"
+  ssl_mode      = "none"
 
   tags = {
-    Name = "test"
+    Name   = "donnedtipi"
+    Update = "to-update"
+    Remove = "to-remove"
   }
-
-  username = "test"
-}
 
 # Create a new certificate
 resource "aws_dms_certificate" "test" {
@@ -63,7 +52,7 @@ resource "aws_dms_replication_instance" "test" {
   publicly_accessible          = true
   replication_instance_class   = "dms.t2.micro"
   replication_instance_id      = "test-dms-replication-instance-tf"
-  replication_subnet_group_id  = aws_dms_replication_subnet_group.test-dms-replication-subnet-group-tf.id
+  allow_major_version_upgrade   = true
 
   tags = {
     Name = "test"

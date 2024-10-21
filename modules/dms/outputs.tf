@@ -17,3 +17,8 @@ output "replication_task_id" {
   description = "The ID of the replication task"
   value       = aws_dms_replication_task.example.replication_task_id
 }
+
+output "certificate_arn" {
+  description = "The ARN of the certificate"
+  value       = aws_dms_certificate.test.certificate_arn
+}
