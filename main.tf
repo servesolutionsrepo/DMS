@@ -23,21 +23,7 @@ module "dynamodb" {
 module "dms" {
   source  = "./modules/dms"
   
-  # Instance (based on dms.tf)
-  allocated_storage             = 20
-  auto_minor_version_upgrade    = true
-  allow_major_version_upgrade   = true
-  apply_immediately             = true
-  engine_version                = "3.1.4"  # Updated to match the dms.tf file
-  multi_az                      = false    # Based on the dms.tf file
-  preferred_maintenance_window  = "sun:10:30-sun:14:30"
-  publicly_accessible           = true     # Public access as specified in the dms.tf file
-  replication_instance_class    = "dms.t3.large"
-  replication_instance_id       = "test"
-  availability_zone             = "us-west-2c"
-  kms_key_arn                   = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
-  
-  # Endpoints
+    # Endpoints
   endpoints = {
     source = {
       database_name               = "test"
@@ -69,6 +55,23 @@ module "dms" {
       }
     }
   }
+
+
+
+  # Instance (based on dms.tf)
+  allocated_storage             = 20
+  auto_minor_version_upgrade    = true
+  allow_major_version_upgrade   = true
+  apply_immediately             = true
+  engine_version                = "3.1.4"  # Updated to match the dms.tf file
+  multi_az                      = false    # Based on the dms.tf file
+  preferred_maintenance_window  = "sun:10:30-sun:14:30"
+  publicly_accessible           = true     # Public access as specified in the dms.tf file
+  replication_instance_class    = "dms.t3.large"
+  replication_instance_id       = "test"
+  availability_zone             = "us-west-2c"
+  kms_key_arn                   = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
+  
 
   replication_tasks = {
     cdc_ex = {
