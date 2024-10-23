@@ -87,6 +87,24 @@ resource "aws_dms_replication_task" "test" {
   target_endpoint_arn = aws_dms_s3_endpoint.target.endpoint_arn
 }
 
+resource "aws_dms_replication_task" "full_load" {
+  replication_task_id          = "full-load-task"
+  replication_instance_arn     = aws_dms_replication_instance.main.replication_instance_arn
+  source_endpoint_arn          = aws_dms_endpoint.source.endpoint_arn
+  target_endpoint_arn          = aws_dms_endpoint.destination.endpoint_arn
+  migration_type               = "full-load"
+}
+
+resource "aws_dms_replication_task" "cdc" {
+  replication_task_id          = "cdc-task"
+  replication_instance_arn     = aws_dms_replication_instance.main.replication_instance_arn
+  source_endpoint_arn          = aws_dms_endpoint.source.endpoint_arn
+  target_endpoint_arn          = aws_dms_endpoint.destination.endpoint_arn
+  migration_type               = "cdc"
+}
+
+
+
 # AWS DMS Event Subscription
 resource "aws_dms_event_subscription" "example" {
   enabled          = true
