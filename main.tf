@@ -9,61 +9,64 @@ module "dynamodb" {
   table_name = var.dynamodb_table_name
 }
 
-# terraform {
-#   backend "s3" {
-#     region         = "eu-west-2"
-#     bucket         = "my-terraform-state-bucket"
-#     key            = "global/s3/terraform.tfstate"
-#     dynamodb_table = "terraform-state-locks"
-#     encrypt        = true
-#   }
-# }
+#  terraform {
+#    backend "s3" {
+#      region         = "eu-west-2"
+#      bucket         = "my-terraform-state-bucket"
+#      key            = "global/s3/terraform.tfstate"
+#      dynamodb_table = "terraform-state-locks"
+#      encrypt        = true
+#    }
+#  }
 #-----------------------------------------------------------------
 
 module "dms" {
   source  = "./modules/dms"
   
-
-  # Instance
+  # Instance (based on dms.tf)
   allocated_storage             = 20
   auto_minor_version_upgrade    = true
   allow_major_version_upgrade   = true
-  apply_mmediately              = true
-  engine_version                = "3.5.2"
-  multi_az                      = true
+  apply_immediately             = true
+  engine_version                = "3.1.4"  # Updated to match the dms.tf file
+  multi_az                      = false    # Based on the dms.tf file
   preferred_maintenance_window  = "sun:10:30-sun:14:30"
-  publicly_accessible           = false
+  publicly_accessible           = true     # Public access as specified in the dms.tf file
   replication_instance_class    = "dms.t3.large"
   replication_instance_id       = "test"
   availability_zone             = "us-west-2c"
   kms_key_arn                   = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
   
-
+  # Endpoints
   endpoints = {
     source = {
       database_name               = "test"
-      endpoint_id                 = "example-source"
+      endpoint_id                 = "test-dms-endpoint-tf"  # Updated to match the uploaded file
       endpoint_type               = "source"
-      engine_name                 = "aurora-postgresql"
-      username                    = "postgresqlUser"
-      password                    = "youShouldPickABetterPassword123!"
-      port                        = 5432
-      server_name                 = "dms-ex-src.cluster-abcdefghijkl.us-east-1.rds.amazonaws.com"
+      engine_name                 = "aurora"  # Based on the file
+      username                    = "test"
+      password                    = "test"
+      port                        = 3306
+      server_name                 = "test"
       ssl_mode                    = "none"
-      tags                        = { EndpointType = "source" }
+      tags                        = { Name = "test" }
     }
 
     destination = {
-      database_name = "example"
-      endpoint_id   = "example-destination"
-      endpoint_type = "target"
-      engine_name   = "aurora"
-      username      = "mysqlUser"
-      password      = "passwordsDoNotNeedToMatch789?"
-      port          = 3306
-      server_name   = "dms-ex-dest.cluster-abcdefghijkl.us-east-1.rds.amazonaws.com"
-      ssl_mode      = "none"
-      tags          = { EndpointType = "destination" }
+      database_name               = "example"
+      endpoint_id                 = "donnedtipi"  # Matching S3 endpoint example in dms.tf
+      endpoint_type               = "target"
+      engine_name                 = "aurora"  
+      username                    = "mysqlUser"
+      password                    = "passwordsDoNotNeedToMatch789?"
+      port                        = 3306
+      server_name                 = "dms-ex-dest.cluster-abcdefghijkl.us-east-1.rds.amazonaws.com"
+      ssl_mode                    = "none"
+      tags                        = {
+        Name = "donnedtipi"
+        Update = "to-update"
+        Remove = "to-remove"
+      }
     }
   }
 
