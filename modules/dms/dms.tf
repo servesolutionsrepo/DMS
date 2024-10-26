@@ -1,6 +1,6 @@
 # AWS DMS Source Endpoint
 resource "aws_dms_endpoint" "source" {
-  certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
+  certificate_arn = aws_dms_certificate.test.certificate_arn
   database_name   = "test"
   endpoint_id     = "test-dms-endpoint-tf"
   endpoint_type   = "source"
@@ -47,10 +47,9 @@ resource "aws_dms_replication_instance" "test" {
   auto_minor_version_upgrade   = true
   availability_zone            = "us-west-2c"
   engine_version               = "3.1.4"
-  kms_key_arn                  = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-123456789012"
   multi_az                     = false
   preferred_maintenance_window = "sun:10:30-sun:14:30"
-  publicly_accessible          = true
+  publicly_accessible          = false
   replication_instance_class   = "dms.t2.micro"
   replication_instance_id      = "test-dms-replication-instance-tf"
   allow_major_version_upgrade  = true
@@ -93,7 +92,7 @@ resource "aws_dms_event_subscription" "example" {
   event_categories = ["creation", "failure"]
   name             = "my-favorite-event-subscription"
   sns_topic_arn    = aws_sns_topic.example.arn
-  source_ids       = [aws_dms_replication_task.test.replication_task_id]
+  #source_ids       = [aws_dms_replication_task.test.replication_task_id]
   source_type      = "replication-task"
 
   tags = {
