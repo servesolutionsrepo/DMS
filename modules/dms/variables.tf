@@ -1,7 +1,34 @@
-variable var.db_test {
-  type        = string
-  default     = ""
-  description = "description"
+
+variable "dms_endpoint" {
+  description = "Configuration for the DMS endpoint"
+  type = object({
+    endpoint_id   = string
+    endpoint_type = string
+    engine_name   = string
+    username      = string
+    password      = string
+    server_name   = string
+    port          = number
+    database_name = string
+    ssl_mode      = string
+    tags          = map(string)
+  })
+  default = {
+    endpoint_id   = "donnedtipi"
+    endpoint_type = "source"
+    engine_name   = "sqlserver"
+    username      = "admin"
+    password      = "password"
+    server_name   = "donnedtipi.database.windows.net"
+    port          = 3306
+    database_name = "test"
+    ssl_mode      = "none"
+    tags = {
+      Name   = "donnedtipi"
+      Update = "to-update"
+      Remove = "to-remove"
+    }
+  }
 }
 
 variable "dms_s3_endpoint" {

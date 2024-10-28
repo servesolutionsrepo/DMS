@@ -1,14 +1,14 @@
 # AWS DMS Source Endpoint
 resource "aws_dms_endpoint" "source" {
   certificate_arn = aws_dms_certificate.test.certificate_arn
-  database_name   = "test"
-  endpoint_id     = "test-dms-endpoint-tf"
-  endpoint_type   = "source"
-  engine_name     = "aurora"
-  password        = "test"  # Secure this!
-  port            = 3306
-  server_name     = "test"
-  ssl_mode        = "none"
+  database_name   = var.dms_endpoint.database_name
+  endpoint_id     = var.dms_endpoint.endpoint_id
+  endpoint_type   = var.dms_endpoint.endpoint_type
+  engine_name     = var.dms_endpoint.engine_name
+  password        = var.dms_endpoint.password  # Secure this!
+  port            = var.dms_endpoint.port
+  server_name     = var.dms_endpoint.server_name
+  ssl_mode        = var.dms_endpoint.ssl_mode
 
   tags = {
     Name = "test"
@@ -26,10 +26,15 @@ resource "aws_dms_s3_endpoint" "target" {
   tags = var.dms_s3_endpoint.tags
 }
 
+data "aws_secretsmanager_secret_version" "dms_cert" {
+  secret_id = "arn:aws:secretsmanager:us-east-1:123456789012:secret:test-dms-certificate"
+}
+
 # AWS DMS Certificate
 resource "aws_dms_certificate" "test" {
   certificate_id  = "test-dms-certificate-tf"
-  certificate_pem = "..."  # Secure this!
+  certificate_pem = data.aws_secretsmanager_secret_version.dms_cert.secret_string
+  # Secure this!
 
   tags = {
     Name = "test"
