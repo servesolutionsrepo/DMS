@@ -18,12 +18,12 @@ resource "aws_dms_endpoint" "source" {
 }
 
 # AWS DMS S3 Target Endpoint
-resource "dms_s3_endpoint" "target" {
-  endpoint_id   = var.dms_s3_endpoint.endpoint_id
-  endpoint_type = var.dms_s3_endpoint.endpoint_type
-  ssl_mode      = var.dms_s3_endpoint.ssl_mode
+resource "aws_aws_dms_s3_endpoint" "target" {
+  endpoint_id   = var.aws_dms_s3_endpoint.endpoint_id
+  endpoint_type = var.aws_dms_s3_endpoint.endpoint_type
+  ssl_mode      = var.aws_dms_s3_endpoint.ssl_mode
 
-  tags = var.dms_s3_endpoint.tags
+  tags = var.aws_dms_s3_endpoint.tags
 }
 
 data "aws_secretsmanager_secret_version" "dms_cert" {
@@ -78,7 +78,7 @@ resource "aws_dms_replication_task" "test" {
 
   tags = var.dms_replication_task.tags
 
-  target_endpoint_arn = aws_dms_s3_endpoint.target.endpoint_arn
+  target_endpoint_arn = aws_aws_dms_s3_endpoint.target.endpoint_arn
 }
 
 # AWS DMS Event Subscription

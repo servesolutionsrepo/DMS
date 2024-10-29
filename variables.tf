@@ -61,7 +61,7 @@ variable "dms_endpoint" {
   }
 }
 
-variable "dms_s3_endpoint" {
+variable "aws_dms_s3_endpoint" {
   description = "Configuration for the DMS S3 endpoint"
   type = object({
     endpoint_id   = string

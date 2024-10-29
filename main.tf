@@ -38,7 +38,7 @@ module "dms" {
   dms_event_subscription   = var.dms_event_subscription
   dms_replication_task     = var.dms_replication_task
   dms_endpoint             = var.dms_endpoint
-  dms_s3_endpoint          = var.dms_s3_endpoint
+  aws_dms_s3_endpoint          = var.aws_dms_s3_endpoint
   dms_replication_instance = var.dms_replication_instance
 
 
