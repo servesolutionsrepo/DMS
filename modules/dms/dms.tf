@@ -18,7 +18,7 @@ resource "aws_dms_endpoint" "source" {
 }
 
 # AWS DMS S3 Target Endpoint
-resource "aws_dms_s3_endpoint" "target" {
+resource "dms_s3_endpoint" "target" {
   endpoint_id   = var.dms_s3_endpoint.endpoint_id
   endpoint_type = var.dms_s3_endpoint.endpoint_type
   ssl_mode      = var.dms_s3_endpoint.ssl_mode
