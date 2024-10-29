@@ -70,15 +70,15 @@ resource "aws_dms_replication_instance" "test" {
 resource "aws_dms_replication_task" "test" {
   cdc_start_time            = var.dms_replication_task.cdc_start_time
   migration_type            = var.dms_replication_task.migration_type
-  replication_instance_arn  = var.dms_replication_task.replication_instance_arn
+  replication_instance_arn  = aws_dms_replication_instance.test.replication_instance_arn
   replication_task_id       = var.dms_replication_task.replication_task_id
   replication_task_settings = var.dms_replication_task.replication_task_settings
-  source_endpoint_arn       = var.dms_replication_task.source_endpoint_arn
+  source_endpoint_arn       = aws_dms_endpoint.source.endpoint_arn
   table_mappings            = var.dms_replication_task.table_mappings
 
   tags = var.dms_replication_task.tags
 
-  target_endpoint_arn = var.dms_replication_task.target_endpoint_arn
+  target_endpoint_arn = aws_dms_s3_endpoint.target.endpoint_arn
 }
 
 # AWS DMS Event Subscription
@@ -86,7 +86,7 @@ resource "aws_dms_event_subscription" "example" {
   enabled          = var.dms_event_subscription.enabled
   event_categories = var.dms_event_subscription.event_categories
   name             = var.dms_event_subscription.name
-  sns_topic_arn    = var.dms_event_subscription.sns_topic_arn
+  sns_topic_arn    = aws_sns_topic.example.arn
   #source_ids       = var.dms_event_subscription.source_ids
   source_type      = var.dms_event_subscription.source_type
 

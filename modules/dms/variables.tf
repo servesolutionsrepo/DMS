@@ -73,7 +73,7 @@ variable "dms_replication_instance" {
     allocated_storage            = 20
     apply_immediately            = true
     auto_minor_version_upgrade   = true
-    availability_zone            = "us-west-2c"
+    availability_zone            = "eu-west-2a"
     engine_version               = "3.1.4"
     multi_az                     = false
     preferred_maintenance_window = "sun:10:30-sun:14:30"
@@ -100,26 +100,21 @@ variable "dms_replication_task" {
   type = object({
     cdc_start_time            = string
     migration_type            = string
-    replication_instance_arn  = string
+    #replication_instance_arn  = string
     replication_task_id       = string
     replication_task_settings = string
-    source_endpoint_arn       = string
     table_mappings            = string
     tags                      = map(string)
-    target_endpoint_arn       = string
   })
   default = {
     cdc_start_time            = "1993-05-21T05:50:00Z"
     migration_type            = "full-load"
-    replication_instance_arn  = aws_dms_replication_instance.test.replication_instance_arn
     replication_task_id       = "test-dms-replication-task-tf"
     replication_task_settings = "..."
-    source_endpoint_arn       = aws_dms_endpoint.source.endpoint_arn
     table_mappings            = "{\"rules\":[{\"rule-type\":\"selection\",\"rule-id\":\"1\",\"rule-name\":\"1\",\"object-locator\":{\"schema-name\":\"%\",\"table-name\":\"%\"},\"rule-action\":\"include\"}]}"
     tags = {
       Name = "test"
     }
-    target_endpoint_arn = aws_dms_s3_endpoint.target.endpoint_arn
   }
 }
 
@@ -129,7 +124,6 @@ variable "dms_event_subscription" {
     enabled          = bool
     event_categories = list(string)
     name             = string
-    sns_topic_arn    = string
     #source_ids       = list(string)
     source_type      = string
     tags = map(string)
@@ -138,7 +132,6 @@ variable "dms_event_subscription" {
     enabled          = true
     event_categories = ["creation", "failure"]
     name             = "my-favorite-event-subscription"
-    sns_topic_arn    = aws_sns_topic.example.arn
     #source_ids       = [aws_dms_replication_task.test.replication_task_id]
     source_type      = "replication-task"
     tags = {
